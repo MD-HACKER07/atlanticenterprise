@@ -1,0 +1,12 @@
+{
+  "name": "internhub-tools",
+  "version": "1.0.0",
+  "description": "Tools for InternHub application",
+  "type": "module",
+  "scripts": {
+    "import-backups": "node import-backups.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7"
+  }
+} 

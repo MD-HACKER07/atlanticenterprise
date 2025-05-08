@@ -1,0 +1,11 @@
+{
+  "name": "internhub-api",
+  "version": "1.0.0",
+  "description": "API routes for InternHub",
+  "dependencies": {
+    "razorpay": "^2.9.6"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 

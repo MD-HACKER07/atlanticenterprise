@@ -1,0 +1,40 @@
+# robots.txt for https://atlanticenterprise.in/
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://atlanticenterprise.in/sitemap.xml
+
+# Disallow admin and restricted areas
+Disallow: /admin/
+Disallow: /verify-access/
+Disallow: /api/
+Disallow: /login/
+Disallow: /dashboard/
+
+# Crawl delay for better server performance
+Crawl-delay: 1
+
+# Discourage crawling of PDFs and other resource files
+Disallow: /*.pdf$
+Disallow: /*.doc$
+Disallow: /*.docx$
+Disallow: /*.xls$
+Disallow: /*.xlsx$
+
+# Specific instructions for Googlebot
+User-agent: Googlebot
+Allow: /
+Disallow: /verify-access
+Disallow: /login
+Disallow: /dashboard
+Disallow: /admin/
+
+# Specific instructions for Bingbot
+User-agent: Bingbot
+Allow: /
+Disallow: /verify-access
+Disallow: /login
+Disallow: /dashboard
+Disallow: /admin/ 

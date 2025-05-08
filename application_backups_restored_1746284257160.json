@@ -1,0 +1,35 @@
+[
+  {
+    "id": "1e443d00-0ce6-4800-a862-45d998a5cf83",
+    "timestamp": "2025-05-03T14:57:03.800Z",
+    "applicationData": {
+      "internship_id": "00000000-0000-0000-0000-000000000000",
+      "name": "Test Applicant",
+      "email": "test@example.com",
+      "phone": "1234567890",
+      "education": "Bachelor's",
+      "college": "Test University",
+      "city": "Test City",
+      "skills": [
+        "JavaScript",
+        "React"
+      ],
+      "experience": "",
+      "message": "Test cover letter",
+      "resume_url": null,
+      "resume_file_name": null,
+      "linkedin_profile": "",
+      "github_profile": "",
+      "portfolio_url": "",
+      "hear_about_us": "",
+      "status": "pending",
+      "payment_status": "paid",
+      "payment_id": "test_payment_123",
+      "payment_amount": 500,
+      "coupon_code": null,
+      "discount_amount": 0,
+      "original_amount": 500,
+      "applied_at": "2025-05-03T14:57:03.667Z"
+    }
+  }
+]

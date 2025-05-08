@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React Test - ATLANTIC ENTERPRISE</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f0f9ff;
+    }
+    #root {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .app {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #1e40af;
+    }
+  </style>
+  <!-- Load React from CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <!-- React Component -->
+  <script type="text/babel">
+    function AtlanticApp() {
+      return (
+        <div className="app">
+          <h1>ATLANTIC ENTERPRISE</h1>
+          <p>Building the Future with Innovation and Quality</p>
+          <div>
+            <p>This page is using React loaded from CDN.</p>
+            <p>If you can see this content, then React is working correctly.</p>
+            <p>React version: {React.version}</p>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<AtlanticApp />);
+  </script>
+</body>
+</html> 
