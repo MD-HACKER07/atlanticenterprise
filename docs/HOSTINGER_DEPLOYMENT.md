@@ -420,6 +420,49 @@ sudo certbot --nginx -d api.atlanticenterprise.in
 
 ## 6. Deploy the Application
 
+### Option 1: Clone from GitHub (Recommended)
+
+You can directly clone the repository from GitHub for easier deployment and updates:
+
+```bash
+# SSH into your VPS
+ssh user@your-vps-ip
+
+# Navigate to the root directory
+cd /var/www/atlanticenterprise/
+
+# Clone the repository
+git clone https://github.com/MD-HACKER07/atlanticenterprise.git temp-repo
+
+# Move frontend files
+cp -r temp-repo/src /var/www/atlanticenterprise/frontend/
+cp -r temp-repo/public /var/www/atlanticenterprise/frontend/
+cp temp-repo/index.html /var/www/atlanticenterprise/frontend/
+
+# Move backend files
+cp -r temp-repo/api /var/www/atlanticenterprise/api/
+cp temp-repo/api-server.js /var/www/atlanticenterprise/api/
+cp temp-repo/create_db_functions.sql /var/www/atlanticenterprise/api/
+cp temp-repo/create_rpc_functions.sql /var/www/atlanticenterprise/api/
+cp temp-repo/package.json /var/www/atlanticenterprise/api/
+
+# Install frontend dependencies and build
+cd /var/www/atlanticenterprise/frontend/
+npm install
+npm run build
+
+# Install backend dependencies
+cd /var/www/atlanticenterprise/api/
+npm install --production
+
+# Clean up
+rm -rf /var/www/atlanticenterprise/temp-repo
+```
+
+### Option 2: Manual Upload
+
+Alternatively, you can prepare and upload the files manually:
+
 ### Prepare Frontend Files Locally
 
 1. Make sure your frontend configuration has the correct API URL in `src/config.js`
@@ -585,6 +628,53 @@ Add this line to run backups daily at 2 AM:
 
 ### Updating the Application
 
+#### Option 1: Update from GitHub (Recommended)
+
+If you deployed using GitHub, updating is straightforward:
+
+```bash
+# SSH into your VPS
+ssh user@your-vps-ip
+
+# Create a temporary directory for the update
+mkdir -p /tmp/update
+cd /tmp/update
+
+# Clone the repository
+git clone https://github.com/MD-HACKER07/atlanticenterprise.git
+
+# Stop the API
+pm2 stop atlantic-api
+
+# Backup current deployment
+timestamp=$(date +"%Y%m%d_%H%M%S")
+mkdir -p /var/backups/atlanticenterprise/$timestamp
+cp -r /var/www/atlanticenterprise/frontend /var/backups/atlanticenterprise/$timestamp/
+cp -r /var/www/atlanticenterprise/api /var/backups/atlanticenterprise/$timestamp/
+
+# Update frontend files
+cp -r /tmp/update/atlanticenterprise/src/* /var/www/atlanticenterprise/frontend/src/
+cp -r /tmp/update/atlanticenterprise/public/* /var/www/atlanticenterprise/frontend/public/
+# Rebuild frontend
+cd /var/www/atlanticenterprise/frontend
+npm install
+npm run build
+
+# Update backend files
+cp -r /tmp/update/atlanticenterprise/api/* /var/www/atlanticenterprise/api/
+cd /var/www/atlanticenterprise/api
+npm install --production
+
+# Restart the API
+pm2 restart atlantic-api --update-env
+pm2 save
+
+# Clean up
+rm -rf /tmp/update
+```
+
+#### Option 2: Manual Update
+
 1. Build new versions locally
 2. Create zip files as described in section 6
 3. Upload zip files to VPS
@@ -723,6 +813,72 @@ sudo certbot renew
    ```bash
    pm2 install pm2-server-monit
    ```
+
+## 14. Mobile Responsiveness
+
+The Atlantic Enterprise website has been optimized for mobile devices. When deploying, ensure that the responsive design features are working correctly.
+
+### Key Responsive Elements
+
+1. **Hero Sections**: 
+   - The hero sections in both HomePage.tsx and App.tsx use responsive class utilities
+   - Text sizes adjust based on screen width (text-3xl sm:text-4xl md:text-6xl)
+   - Button layouts switch from stacked on mobile to horizontal on larger screens
+   - Images are properly sized for all devices
+
+2. **Card Components**:
+   - InternshipCard.tsx and TestimonialCard.tsx include responsive layouts
+   - Images and content areas resize appropriately on small screens
+   - Text remains readable on all devices
+
+3. **Grid Layouts**:
+   - Components use responsive grid classes that adjust column counts based on screen size
+   - Single column layouts on mobile expand to multi-column on larger screens
+
+### Testing Mobile Responsiveness
+
+Before finalizing deployment, test the website on multiple device sizes:
+
+```bash
+# Use built-in browser tools to test responsiveness
+# Chrome/Firefox/Safari developer tools all have device emulation
+
+# Common breakpoints to test:
+# - Mobile: 375px, 414px width
+# - Tablet: 768px, 1024px width
+# - Desktop: 1280px, 1440px, 1920px width
+```
+
+Key pages to test for mobile responsiveness:
+- Home page hero section
+- App hero section
+- Internship cards
+- Testimonial sections
+- Navigation menu (hamburger menu on mobile)
+- Contact forms
+
+### Mobile Performance Optimization
+
+For optimal mobile experience, ensure these optimizations are in place:
+
+1. **Image Optimization**:
+   ```bash
+   # Verify that images are properly compressed
+   find /var/www/atlanticenterprise/frontend -name "*.jpg" -o -name "*.png" | xargs ls -la
+   ```
+
+2. **Add Responsive Images Nginx Configuration**:
+   ```nginx
+   # Add to your Nginx config in the frontend server block
+   location ~* \.(jpg|jpeg|png|gif|webp)$ {
+     expires 1y;
+     add_header Cache-Control "public, max-age=31536000";
+     add_header Vary "Accept-Encoding";
+     try_files $uri =404;
+   }
+   ```
+
+3. **Critical CSS** - Ensure the build process inlines critical CSS for faster mobile rendering
 
 ## Conclusion
 
